@@ -47,6 +47,13 @@ def main():
 
     # Initialize a linked list
     tasks_list = LinkedList()
+    
+    # ****use st session state to persist the linked list
+    if "tasks_list" not in st.session_state:
+        st.session_state.tasks_list = LinkedList()
+
+    tasks_list = st.session_state.tasks_list
+    # ****
 
     # Sidebar for adding tasks
     task_input = st.sidebar.text_input("Add Task:")
@@ -59,6 +66,13 @@ def main():
     if st.sidebar.button("Remove"):
         if task_to_remove:
             tasks_list.remove_task(task_to_remove)
+
+    #**** view tasks 
+    if st.sidebar.button("View Tasks"):
+        tasks = tasks_list.display_tasks()
+        st.sidebar.write("## Current Tasks:")
+        for i, task in enumerate(tasks, start=1):
+            st.sidebar.write(f"{i}. {task}")
 
     # Main content to display tasks
     st.write("## Your To-Do List:")
